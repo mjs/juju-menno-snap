@@ -1,0 +1,36 @@
+Start by installing the custom juju build:
+
+  snap install --edge --devmode juju-menno
+
+Now run the setup script included in the snap:
+
+  juju-menno.setup
+
+This sets up 2 controllers named A and B. Controller A gets a model model called "foo" with the elasticsearch-cluster bundle deployed into it. The script runs `juju status` under watch at the end. Hit Ctrl-C once the bundle has finished deploying and both units have stablised.
+
+In order to try out the various model migration status output options, you are going to repeatedly migrate the foo model between controller A and B.
+
+You'll want 2 terminals. In the first run:
+
+  juju-menno.juju switch A:foo
+  watch -n 0.3 "TRIAL=1 juju-menno.juju status"
+
+In the other terminal run:
+
+  export JUJU_DEV_FEATURE_FLAGS=migration
+  juju-menno.juju migrate foo B
+
+You'll see the migration status in the terminal watching the tabular status output. Once the migration ends, the terminal showing the status output will start showing errors because the model has migrated. Hit Ctrl-C to stop the watch command.
+
+To try the next output option, in the first terminal change the value of TRIAL like this:
+
+  juju-menno.juju switch B:foo
+  watch -n 0.3 "TRIAL=2 juju-menno.juju status"
+
+In the second terminal run:
+
+   juju-menno.juju migrate foo A
+
+There should be a new way of presenting migration progress in the status output.
+
+Repeat this, incrementing TRIAL, and migrating between controllers A and B. TRIAL can take on values from 1 to 5.

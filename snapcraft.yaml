@@ -1,0 +1,29 @@
+name: juju-menno
+version: 2.0-beta15
+summary: juju with trial options of model migration status in tabular status output
+description: Through the use of charms, juju provides you with shareable, re-usable, and repeatable expressions of devops best practices.
+confinement: devmode
+
+apps:
+  juju:
+    command: bin/juju
+    plugs: [network, network-bind, home]
+  setup:
+    command: bin/setup
+    plugs: [network, network-bind, home]
+
+parts:
+  juju:
+    build-packages: [bzr]
+    plugin: godeps
+    go-importpath: github.com/juju/juju
+    source: https://github.com/mjs/juju.git
+    source-type: git
+    source-branch: MM-tabular-status-options
+    snap:
+    - bin/juju
+    - bin/jujud
+  setup:
+    plugin: copy
+    files:
+      setup: bin/setup
