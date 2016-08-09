@@ -8,9 +8,6 @@ apps:
   juju:
     command: bin/juju
     plugs: [network, network-bind, home]
-  setup:
-    command: bin/setup
-    plugs: [network, network-bind, home]
 
 parts:
   juju:
@@ -23,7 +20,3 @@ parts:
     snap:
     - bin/juju
     - bin/jujud
-  setup:
-    plugin: copy
-    files:
-      setup: bin/setup
