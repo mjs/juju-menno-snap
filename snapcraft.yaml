@@ -14,9 +14,9 @@ parts:
     build-packages: [bzr]
     plugin: godeps
     go-importpath: github.com/juju/juju
-    source: https://github.com/mjs/juju.git
+    source: https://github.com/juju/juju.git
     source-type: git
-    source-branch: MM-tabular-status-options
+    source-branch: master
     snap:
     - bin/juju
     - bin/jujud
